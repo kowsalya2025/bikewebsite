@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Thank you for contacting Drive RP</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+        .header { background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 30px 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; }
+        .header p { margin: 10px 0 0 0; opacity: 0.9; }
+        .content { padding: 30px 20px; }
+        .greeting { font-size: 18px; margin-bottom: 20px; }
+        .info-box { background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #007bff; }
+        .contact-info { background-color: #e3f2fd; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .footer { background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #666; }
+        .button { display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 10px 0; }
+        .social-links { text-align: center; margin: 20px 0; }
+        .social-links a { margin: 0 10px; text-decoration: none; color: #007bff; }
+        .timeline { background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Drive RP</h1>
+            <p>Your Trusted Bike Partner</p>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                Dear {{ name }},
+            </div>
+            
+            <p>Thank you for contacting Drive RP! We have successfully received your <strong>{{ reason_display|lower }}</strong> inquiry.</p>
+            
+            <div class="info-box">
+                <h3 style="margin-top: 0; color: #007bff;">Your Inquiry Details:</h3>
+                <p><strong>Inquiry Type:</strong> {{ reason_display }}</p>
+                <p><strong>Submitted on:</strong> {{ submission_date|date:"F d, Y \a\t g:i A" }}</p>
+                <p><strong>Reference ID:</strong> {{ submission_id }}</p>
+                
+                <div style="margin-top: 15px; padding: 10px; background-color: #ffffff; border-radius: 5px;">
+                    <strong>Your Message:</strong><br>
+                    {{ message|linebreaks }}
+                </div>
+            </div>
+            
+            {% if reason == 'buy_bike' %}
+                <div class="timeline">
+                    <h4 style="margin-top: 0; color: #856404;">What happens next?</h4>
+                    <p>Our sales team will contact you within <strong>2 hours</strong> to:</p>
+                    <ul>
+                        <li>Understand your bike preferences and budget</li>
+                        <li>Share our current inventory matching your needs</li>
+                        <li>Schedule a visit to our showroom for test rides</li>
+                        <li>Discuss financing options if needed</li>
+                    </ul>
+                </div>
+            {% elif reason == 'sell_bike' %}
+                <div class="timeline">
+                    <h4 style="margin-top: 0; color: #856404;">What happens next?</h4>
+                    <p>Our evaluation team will contact you within <strong>2 hours</strong> to:</p>
+                    <ul>
+                        <li>Collect detailed information about your bike</li>
+                        <li>Schedule a free evaluation at your convenience</li>
+                        <li>Provide you with a competitive quote</li>
+                        <li>Handle all documentation if you decide to sell</li>
+                    </ul>
+                </div>
+            {% elif reason == 'exchange_bike' %}
+                <div class="timeline">
+                    <h4 style="margin-top: 0; color: #856404;">What happens next?</h4>
+                    <p>Our exchange specialist will contact you within <strong>2 hours</strong> to:</p>
+                    <ul>
+                        <li>Evaluate your current bike</li>
+                        <li>Understand your new bike requirements</li>
+                        <li>Calculate exchange value and additional payment</li>
+                        <li>Arrange test rides for your preferred models</li>
+                    </ul>
+                </div>
+            {% elif reason == 'rto_service' %}
+                <div class="timeline">
+                    <h4 style="margin-top: 0; color: #856404;">What happens next?</h4>
+                    <p>Our RTO services team will contact you within <strong>4 hours</strong> to:</p>
+                    <ul>
+                        <li>Understand your specific RTO requirements</li>
+                        <li>Share the list of required documents</li>
+                        <li>Provide timeline and service charges</li>
+                        <li>Schedule document collection if needed</li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="timeline">
+                    <h4 style="margin-top: 0; color: #856404;">What happens next?</h4>
+                    <p>Our team will contact you within <strong>24 hours</strong> to address your inquiry and provide the information you need.</p>
+                </div>
+            {% endif %}
+            
+            <div class="contact-info">
+                <h3 style="margin-top: 0; color: #0277bd;">Need Immediate Assistance?</h3>
+                <p><strong>📞 Call us:</strong> <a href="tel:+919879521234" style="color: #007bff;">+91 987 952 1234</a></p>
+                <p><strong>📍 Visit us:</strong> 51, Rajaji Street, GST Road, Chengalpattu-603104, Tamil Nadu</p>
+                <p><strong>🌐 Website:</strong> <a href="http://www.DriveRp.in" style="color: #007bff;">www.DriveRp.in</a></p>
+                
+                <div style="margin-top: 15px;">
+                    <strong>Business Hours:</strong><br>
+                    Monday - Friday: 9:00 AM - 7:00 PM<br>
+                    Saturday: 9:00 AM - 5:00 PM<br>
+                    Sunday: 10:00 AM - 4:00 PM
+                </div>
+            </div>
+            
+            {% if reason == 'buy_bike' or reason == 'sell_bike' or reason == 'exchange_bike' %}
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="http://www.DriveRp.in" class="button">Visit Our Website</a>
+                <a href="tel:+919879521234" class="button" style="background-color: #28a745;">Call Now</a>
+            </div>
+            {% endif %}
+            
+            <div style="background-color: #f1f3f4; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: #333;">Why Choose Drive RP?</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                    <li>✅ Trusted bike dealer with years of experience</li>
+                    <li>✅ Wide range of bikes - new and pre-owned</li>
+                    <li>✅ Competitive pricing and financing options</li>
+                    <li>✅ Complete RTO and documentation services</li>
+                    <li>✅ Professional evaluation and fair exchange rates</li>
+                    <li>✅ After-sales service and support</li>
+                </ul>
+            </div>
+            
+            <div class="social-links">
+                <p style="margin-bottom: 10px;"><strong>Follow us on social media:</strong></p>
+                <a href="#" style="margin: 0 5px;">📘 Facebook</a>
+                <a href="#" style="margin: 0 5px;">📸 Instagram</a>
+                <a href="#" style="margin: 0 5px;">🐦 Twitter</a>
+                <a href="#" style="margin: 0 5px;">📺 YouTube</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Drive RP</strong> - Your Trusted Bike Partner</p>
+            <p>51, Rajaji Street, GST Road, Chengalpattu-603104, Tamil Nadu, India</p>
+            <p>This is an automated confirmation email. Please do not reply to this message.</p>
+            <p style="font-size: 12px; margin-top: 15px;">
+                If you did not submit this inquiry, please contact us immediately at +91 987 952 1234
+            </p>
+        </div>
+    </div>
+</body>
+</html>

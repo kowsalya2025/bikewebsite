@@ -1,0 +1,493 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DriveRP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* Navbar styling */
+    .navbar {
+      font-size: 1.8rem;  
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); 
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .navbar-nav .nav-link {
+      margin: 0 12px;   
+      font-weight: 500;
+      color: black;
+    }
+
+    .navbar-nav .nav-link.active {
+      color: #00b894 !important; 
+      font-weight: 600;
+    }
+
+    .btn-login {
+      padding: 8px 24px;
+      font-size: 1.5rem;
+      border-radius: 30px;
+      background-color: #004d61;
+      color: white;
+    }
+
+    .search-btn {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      margin-left: 15px;
+      color: #004d61;
+      cursor: pointer;
+    }
+    .search-btn:hover {
+      color: #00b894;
+    }
+
+    /* footer */
+    .footer-section {
+            background: linear-gradient(135deg, #1a4a5c 0%, #2d6b7d 50%, #3d7a8c 100%);
+            padding: 40px 0;
+            color: white;
+            position: relative;
+         
+        }
+
+        .footer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 74, 92, 0.9);
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-logo1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-style: italic;
+            color: #7dd3fc;
+            text-shadow: 2px 2px 10px rgba(170, 27, 227, 0.925);
+            margin-bottom: 30px;
+            line-height: 1;
+          
+        }
+
+        .get-in-touch {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-icon1{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .youtube {
+            background: #FF0000;
+            color: white;
+        }
+
+        .instagram {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            color: white;
+        }
+
+        .facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin-bottom: 12px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+            padding-left: 10px;
+        }
+
+        .bike-categories {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bike-categories li {
+            margin-bottom: 12px;
+        }
+
+        .bike-categories a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+        }
+
+        .bike-categories a:hover {
+            color: #7dd3fc;
+            padding-left: 10px;
+        }
+
+        .bike-image {
+            max-width: 100%;
+            text-align: center;
+            /* height: auto; */
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            margin-left: 0;
+        }
+
+        .address-section h5 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .address-info {
+            margin-bottom: 15px;
+        }
+
+        .address-info i {
+            color: #7dd3fc;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .address-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: white;
+        }
+
+        .website-link {
+            color: #7dd3fc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .website-link:hover {
+            color: #bae6fd;
+            text-decoration: underline;
+        }
+
+        .phone-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .phone-link:hover {
+            color: #7dd3fc;
+        }
+
+        @media (max-width: 768px) {
+            .brand-logo {
+                font-size: 2.5rem;
+                text-align: center;
+            }
+            
+            .get-in-touch {
+                text-align: center;
+            }
+            
+            .social-icons {
+                justify-content: center;
+                margin-bottom: 30px;
+            }
+            
+            .nav-links, .bike-categories {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .address-section {
+                text-align: center;
+            }
+        }
+
+        /* Custom bike image styling */
+        .bike-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .bike-placeholder {
+            width: 170px;
+            height: 200px;
+            /* background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%); */
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            /* box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bike-placeholder::before {
+            content: '🏍️';
+            font-size: 10rem;
+            opacity: 0.7;
+        }
+
+        .bike-placeholder::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white">
+  <div class="container-fluid">
+    <a class="navbar-brand fs-1" href="#">DriveRP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'buy_bike' %}">Buy Bike</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'sell_motorcycle' %}">Sell Bike</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <a href="{% url 'auth' %}" class="btn btn-login fs-3">Login</a>
+        
+        <!-- Search Icon -->
+        <form class="d-inline ms-2" method="get" action="{% url 'search' %}">
+          <input type="hidden" name="q" id="searchInput">
+          <button type="button" class="search-btn" onclick="triggerSearch()">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-5">
+  {% block content %}{% endblock %}
+</div>
+
+
+<footer class="footer-section">
+        <div class="container-fluid footer-content">
+            <div class="row align-items-center">
+                <!-- Logo and Social Links Column -->
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <div class="brand-logo1">DriveRP</div>
+                    <div class="get-in-touch">Get in touch</div>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon1 whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-icon1 youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-icon1 instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon1 facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigation Links Column -->
+                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                    <ul class="nav-links">
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'buy_bike' %}">Buy Bike</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'sell_motorcycle' %}">Sell Bike</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bike Categories Column -->
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <ul class="bike-categories">
+                        <li><a href="#">Electric Two-Wheelers</a></li>
+                        <li><a href="#">Motorcycles</a></li>
+                        <li><a href="#">Scooters</a></li>
+                        <li><a href="#">Mopeds</a></li>
+                        <li><a href="#">ATV</a></li>
+                        <li><a href="#">Custom Bikes</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bike Image Column -->
+                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                    <div class="bike-container">
+                        <div class="bike-placeholder text-center"></div>
+                    </div>
+                </div>
+
+                <!-- Address Column -->
+                <div class="col-lg-2 col-md-12">
+                    <div class="address-section">
+                        <h5>Address:</h5>
+                        <div class="address-info">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="address-text">
+                                51, Rajaji Street,<br>
+                                GST Road,<br>
+                                Chengalpattu-603104
+                            </span>
+                        </div>
+                        <div class="address-info">
+                            <i class="fas fa-globe"></i>
+                            <a href="http://www.DriveRp.in" class="website-link">www.DriveRp.in</a>
+                        </div>
+                        <div class="address-info">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+919879521234" class="phone-link">+91 987 952 1234</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Smooth scroll animation for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add hover effects to social icons
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe footer elements for animation
+        document.querySelectorAll('.footer-content > .row > div').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+<script>
+  function triggerSearch() {
+    let query = prompt("Enter search term:");
+    if(query) {
+      document.getElementById("searchInput").value = query;
+      document.querySelector("form").submit();
+    }
+  }
+</script>
+
+</body>
+</html>
+

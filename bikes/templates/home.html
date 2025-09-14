@@ -1,0 +1,913 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+      .support-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            padding: 60px 0;
+        }
+        
+        .support-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .support-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(52, 152, 219, 0.2);
+        }
+        
+        .icon-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: 4px solid #fff;
+        }
+        
+        .icon-circle i {
+            font-size: 40px;
+            color: white;
+        }
+        
+        .arrow-down {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #3498db;
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .card-title {
+            color: #3498db;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .card-text {
+            color: #ecf0f1;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+         /* Custom icons using CSS */
+        .support-icon::before {
+            content: "24/7";
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .social-icon::before {
+            content: "👥";
+            font-size: 40px;
+        }
+        
+        .blog-icon::before {
+            content: "📝";
+            font-size: 40px;
+        }
+        
+        .security-icon::before {
+            content: "🔒";
+            font-size: 40px;
+        }
+
+        /* card */
+         .bikes-showcase {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .bike-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .bike-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .bike-image-container {
+            position: relative;
+            height: 280px;
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+            background: url('/static/images/background.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .bike-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .brand-logo {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        
+        .bike-details {
+            padding: 25px;
+            background: linear-gradient(135deg, #e8f5f1 0%, #d5f0e7 100%);
+        }
+        
+        .bike-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .bike-specs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #5a6c7d;
+        }
+        
+        .bike-specs i {
+            margin-right: 5px;
+            color: #27ae60;
+        }
+        
+        .bike-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .bike-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .bike-location i {
+            margin-right: 8px;
+            color: #e74c3c;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f39c12;
+            opacity: 0.8;
+        }
+        
+        .confetti:nth-child(1) { top: 20%; left: 10%; animation: float 3s ease-in-out infinite; }
+        .confetti:nth-child(2) { top: 60%; left: 20%; animation: float 2s ease-in-out infinite 0.5s; }
+        .confetti:nth-child(3) { top: 40%; left: 80%; animation: float 2.5s ease-in-out infinite 1s; }
+        .confetti:nth-child(4) { top: 80%; left: 70%; animation: float 3.5s ease-in-out infinite 1.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .view-all-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .btn-custom {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn-custom:hover {
+            background: linear-gradient(135deg, #2980b9, #1f5f8b);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+/* question and answer */
+.faq-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 50px auto;
+            max-width: 1100px;
+        }
+        
+        .faq-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 0;
+        }
+        
+        .faq-item {
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .faq-question {
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            padding: 25px 30px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-question:hover {
+            background: rgba(102, 126, 234, 0.05);
+            color: #667eea;
+        }
+        
+        .faq-question:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: rgba(102, 126, 234, 0.02);
+        }
+        
+        .faq-answer.show {
+            max-height: 500px;
+            padding: 20px 30px 30px 30px;
+        }
+        
+        .faq-answer h4 {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .toggle-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-icon.rotated {
+            transform: rotate(45deg);
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* before testimonial */
+              .stats-container {
+            background: linear-gradient(135deg, #2c8c8c 0%, #4db8b8 50%, #66cccc 100%);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 1200px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .stats-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-logo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            color: rgba(0, 0, 0, 0.8);
+            margin-bottom: 15px;
+            display: block;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.9);
+            margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.8);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-icon {
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Custom bike icon using CSS */
+        .bike-icon::before {
+            content: '🏍️';
+            font-size: 3rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .stats-container {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+            
+            .stats-title {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
+            }
+            
+            .brand-logo {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .stat-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Animated counter effect */
+        .counter {
+            animation: countUp 2s ease-out forwards;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Floating animation for icons */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .stat-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stat-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .stat-icon:nth-child(3) {
+            animation-delay: 1s;
+        }
+</style>
+<!-- ✅ HERO + CAROUSEL -->
+<section class="container my-5">
+  <div class="row align-items-center">
+    <!-- LEFT TEXT -->
+    <div class="col-md-6 my-5">
+      <h2 class="fw-bold text-primary text-center">Buy or Sell Bikes the Smarter Way</h2>
+      <h2 class="text-dark text-center">
+        Skip the hassle. Discover verified secondhand bikes at great prices or list your own in minutes.
+        We’re here to help you ride more, spend less, and keep bikes moving — from one happy rider to the next.
+      </h2>
+      <div class="d-flex justify-content-center">
+        <a href="#" class="btn btn-dark rounded-pill px-4 my-4 fs-3">Buy Now</a>
+      </div>
+    </div>
+
+    <!-- RIGHT CAROUSEL -->
+    <div class="col-md-6 text-center">
+      <div id="bikeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
+        <div class="carousel-inner" style="height: 350px;">
+      {% for bike in bikes %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 100%;">
+        <img src="{{ bike.image.url }}" 
+             class="d-block w-100 h-100" 
+             style="object-fit: contain;" 
+             alt="{{ bike.name }}">
+      </div>
+          {% endfor %}
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#bikeCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bikeCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ FEATURE SECTION -->
+<section class="container my-5">
+  <div class="row align-items-center">
+    <!-- Left: Dynamic Image -->
+    <div class="col-md-4 text-center">
+      {% if feature.image %}
+        <img src="{{ feature.image.url }}" alt="{{ feature.title }}" class="img-fluid" style="max-height:400px;">
+      {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="No Image" class="img-fluid">
+      {% endif %}
+    </div>
+
+    <!-- Right: Text -->
+    <div class="col-md-8 text-center">
+      <h3 class="text-dark">{{ feature.description }}</h3>
+      <a href="#" class="btn btn-dark rounded-pill px-4 my-4 fs-5">Read More</a>
+    </div>
+  </div>
+</section>
+
+ <section class="support-section">
+        <div class="container">
+            <h1 class="section-title text-white">Get the Support You Need</h1>
+            
+            <div class="row g-4">
+                <!-- 24/7 Support -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="support-card">
+                        <div class="icon-circle">
+                            <img src="{%static 'images/homearo1.jpg'%}" alt="24/7 Support" class="icon-image w-50">
+                            <div class="arrow-down"></div>
+                        </div>
+                        <h3 class="card-title">24/7 Support</h3>
+                        <p class="card-text">
+                            Our support team is available 24/7 to assist you. Fast, friendly, and reliable help is just a message away.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="support-card">
+                        <div class="icon-circle">
+                            <img src="{%static 'images/homearo2.png'%}" alt="24/7 Support" class="icon-image w-50">
+                            <div class="arrow-down"></div>
+                        </div>
+                        <h3 class="card-title">Social Media</h3>
+                        <p class="card-text">
+                            Whether you're buying, selling, or just love bikes — there's a place for you in our online community.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Blogs -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="support-card">
+                        <div class="icon-circle">
+                            <img src="{%static 'images/homearo3.jpg'%}" alt="24/7 Support" class="icon-image w-50">
+                            <div class="arrow-down"></div>
+                        </div>
+                        <h3 class="card-title">Blogs</h3>
+                        <p class="card-text">
+                            From guides on buying and selling secondhand bikes to cycling safety and eco-friendly living, we cover it all.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 100% Money Security -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="support-card">
+                        <div class="icon-circle">
+                            <img src="{%static 'images/homearo4.jpg'%}" alt="24/7 Support" class="icon-image w-50">
+                            <div class="arrow-down"></div>
+                        </div>
+                        <h3 class="card-title">100% Money Security</h3>
+                        <p class="card-text">
+                            No scams, no surprises — just a smooth, trustworthy experience every time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<!-- New detailed bikes showcase section -->
+<section class="bikes-showcase">
+    <div class="container">
+        <h2 class="section-title">Our Few Bikes</h2>
+        
+        <div class="row g-4">
+            {% for bike in bikes_for_sale %}  <!-- This uses your detailed BikeForSale model -->
+            <div class="col-lg-4 col-md-6">
+                <div class="bike-card">
+                    <div class="bike-image-container">
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="brand-logo">DriveRP</div>
+                        <a href="{% url 'buy_bike' %}"><img src="{{ bike.image.url }}" alt="{{ bike.name }}" class="bike-image"></a>
+                    </div>
+                    <div class="bike-details">
+                        <h5 class="bike-title">{{ bike.year }} | {{ bike.brand }} {{ bike.name }} | {{ bike.cc }} {{ bike.model_variant }}</h5>
+                        <div class="bike-specs">
+                            <i class="fas fa-tachometer-alt"></i> {{ bike.formatted_km }}
+                            <i class="fas fa-gas-pump ms-3"></i> {{ bike.get_fuel_type_display }}
+                            <i class="fas fa-user ms-3"></i> {{ bike.get_owner_number_display }}
+                        </div>
+                        <div class="bike-price">{{ bike.formatted_price }}</div>
+                        <div class="bike-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ bike.location }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</section>
+
+ <div class="container-fluid">
+        <div class="stats-container">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <h2 class="stats-title mb-0">Over 15000+ Satisfied Customers</h2>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <!-- Bikes Purchased -->
+                        <div class="col-md-4 stat-item">
+                            <i class="fas fa-motorcycle stat-icon"></i>
+                            <div class="stat-number counter" data-target="5000">5000+</div>
+                            <div class="stat-label">Bike Purchased</div>
+                        </div>
+                        
+                        <!-- Average Rating -->
+                        <div class="col-md-4 stat-item">
+                            <div class="rating-stars ">
+                                <i class="fas fa-star stat-icon"></i>
+                            </div>
+                            <div class="stat-number counter" data-target="4.5">4.5</div>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        
+                        <!-- Years Experience -->
+                        <div class="col-md-4 stat-item">
+                            <i class="fas fa-award stat-icon"></i>
+                            <div class="stat-number counter" data-target="25">25+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-end">
+                    <div class="brand-logo">DriveRP</div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- testimonial -->
+ <div class="container my-5">
+  <h2 class="text-center fw-bold mb-5">Real Stories From Our Happy Customer</h2>
+  <h4 class="text-center fw-bold mb-5">Their Words drives us forward and inspire others to join the movements.</h4>
+  <div class="row text-center">
+    {% for t in testimonials %}
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 h-100 g-4" style="border-radius: 15px;  box-shadow: 10px 10px 10px lightseagreen;">
+        <!-- Image -->
+        <img src="{{ t.image.url }}" class="card-img-top" alt="{{ t.name }}"
+             style="height: 250px; object-fit: cover; border-radius: 15px 15px 0 0;">
+        
+        <!-- Content -->
+        <div class="card-body">
+          <h3 class="fw-bold text-primary">
+            {{ t.name }} – {{ t.role }}
+          </h3>
+          <h4 class="card-text text-dark">
+            “{{ t.message }}”
+          </h4>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- rider -->
+ {% if rider_section %}
+<div class="container my-5">
+  <div class="row align-items-center text-white p-4 rounded-4" style="background-color: #124669;">
+    
+    <!-- LEFT TEXT -->
+    <div class="col-md-6">
+      <h2 class="fw-bold">{{ rider_section.title }}</h2>
+      <h4 class="mt-3">{{ rider_section.description }}</h4>
+    </div>
+
+    <!-- RIGHT IMAGE -->
+    <div class="col-md-6 text-center">
+      <img src="{{ rider_section.image.url }}" alt="Rider" 
+           class="img-fluid rounded-4 shadow"
+           style="max-height: 300px; object-fit: cover;">
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+<div class="container">
+        <div class="faq-container">
+            <h1 class="faq-title">Frequently Asked Questions</h1>
+            
+            <div class="faq-content">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#answer1" aria-expanded="false">
+                        <span>
+                            <span class="question-number">1</span>
+                            What happens if a transaction goes wrong?
+                        </span>
+                        <span class="toggle-icon">+</span>
+                    </button>
+                    <div class="faq-answer collapse" id="answer1">
+                        <h5>If a transaction encounters an issue, our platform has built-in safeguards to protect both buyers and sellers. We provide transaction monitoring, dispute resolution services, and secure payment processing. In case of problems, you can contact our support team who will investigate and help resolve the issue promptly. We also offer refund protection and escrow services for high-value transactions.</h5>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#answer2" aria-expanded="false">
+                        <span>
+                            <span class="question-number">2</span>
+                            Are there any restrictions on what I can sell?
+                        </span>
+                        <span class="toggle-icon">+</span>
+                    </button>
+                    <div class="faq-answer collapse" id="answer2">
+                        <h5>Yes, we have certain restrictions to ensure a safe marketplace. You cannot sell illegal items, stolen goods, counterfeit products, weapons, drugs, or items that violate intellectual property rights. Additionally, all bike listings must include accurate descriptions, clear photos, and honest condition reports. Please review our complete terms of service for a detailed list of prohibited items.</h5>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#answer3" aria-expanded="false">
+                        <span>
+                            <span class="question-number">3</span>
+                            What if the bike I buy isn't as described?
+                        </span>
+                        <span class="toggle-icon">+</span>
+                    </button>
+                    <div class="faq-answer collapse" id="answer3">
+                        <h5>We offer buyer protection and dispute resolution to ensure fair outcomes and peace of mind. If the bike you receive doesn't match the description, you can open a dispute within 48 hours of delivery. Our team will review the case, and if the seller misrepresented the item, you'll be eligible for a full refund or partial compensation. We encourage buyers to inspect items thoroughly upon delivery.</h5>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#answer4" aria-expanded="false">
+                        <span>
+                            <span class="question-number">4</span>
+                            How do I know if a bike is in good condition?
+                        </span>
+                        <span class="toggle-icon">+</span>
+                    </button>
+                    <div class="faq-answer collapse" id="answer4">
+                        <h5>Look for detailed photos from multiple angles, including close-ups of wear and tear. Check the seller's description for maintenance history, age, and any issues. Read reviews from previous buyers of the same seller. Consider asking for additional photos or arranging an in-person inspection before purchase. We also provide a condition rating system and verification badges for trusted sellers.</h5>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-bs-toggle="collapse" data-bs-target="#answer5" aria-expanded="false">
+                        <span>
+                            <span class="question-number">5</span>
+                            Can I delete my listing after posting?
+                        </span>
+                        <span class="toggle-icon">+</span>
+                    </button>
+                    <div class="faq-answer collapse" id="answer5">
+                        <h5>Yes, you can delete your listing at any time from your seller dashboard. However, if there are active bids or pending offers, you may need to resolve those first. Deleting a listing with active interest may affect your seller rating. We recommend marking items as "sold" rather than deleting if the transaction was successful, as this helps build your seller reputation.</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Custom JavaScript for smooth animations and icon rotation
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqButtons = document.querySelectorAll('.faq-question');
+            
+            faqButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const icon = this.querySelector('.toggle-icon');
+                    const target = document.querySelector(this.getAttribute('data-bs-target'));
+                    
+                    // Toggle icon rotation
+                    setTimeout(() => {
+                        if (target.classList.contains('show')) {
+                            icon.textContent = '−';
+                            icon.classList.add('rotated');
+                        } else {
+                            icon.textContent = '+';
+                            icon.classList.remove('rotated');
+                        }
+                    }, 150);
+                });
+            });
+
+            // Handle collapse events for smooth animation
+            const collapseElements = document.querySelectorAll('.collapse');
+            collapseElements.forEach(element => {
+                element.addEventListener('show.bs.collapse', function() {
+                    this.classList.add('show');
+                });
+                
+                element.addEventListener('hide.bs.collapse', function() {
+                    this.classList.remove('show');
+                });
+            });
+        });
+    </script>
+
+     <script>
+        // Animated counter effect
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = counter.getAttribute('data-target') || counter.textContent.replace(/[^\d.]/g, '');
+                const count = +target;
+                const increment = count / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < count) {
+                        current += increment;
+                        if (counter.textContent.includes('+')) {
+                            counter.textContent = Math.ceil(current) + '+';
+                        } else if (counter.textContent.includes('%')) {
+                            counter.textContent = Math.ceil(current) + '%';
+                        } else if (counter.textContent.includes('₹')) {
+                            counter.textContent = '₹' + Math.ceil(current) + 'L+';
+                        } else if (counter.textContent.includes('K')) {
+                            counter.textContent = Math.ceil(current) + 'K+';
+                        } else {
+                            counter.textContent = current.toFixed(1);
+                        }
+                        setTimeout(updateCounter, 20);
+                    }
+                };
+                
+                // Start animation when element comes into view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(counter);
+            });
+        }
+
+        // Initialize animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateCounters, 500);
+        });
+    </script>
+
+
+{% endblock %}
+
+

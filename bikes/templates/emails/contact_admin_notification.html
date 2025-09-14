@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>New Contact Form Submission - Drive RP</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .header { background-color: #007bff; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #f8f9fa; }
+        .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .info-table th, .info-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        .info-table th { background-color: #e9ecef; font-weight: bold; width: 30%; }
+        .message-box { background-color: white; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0; }
+        .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+        .priority { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>New Contact Form Submission</h2>
+        <p>Drive RP - {{ reason_display }}</p>
+    </div>
+    
+    <div class="content">
+        <p><strong>A new {{ reason_display|lower }} inquiry has been submitted on {{ submission_date|date:"F d, Y \a\t g:i A" }}</strong></p>
+        
+        {% if reason == 'buy_bike' or reason == 'sell_bike' or reason == 'exchange_bike' %}
+        <p class="priority">⚠️ Priority: This is a {{ reason_display|lower }} inquiry - requires prompt follow-up!</p>
+        {% endif %}
+        
+        <table class="info-table">
+            <tr>
+                <th>Name</th>
+                <td>{{ name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><a href="mailto:{{ email }}">{{ email }}</a></td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>
+                    {% if phone != 'Not provided' %}
+                        <a href="tel:{{ phone }}">{{ phone }}</a>
+                    {% else %}
+                        {{ phone }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Inquiry Type</th>
+                <td><strong>{{ reason_display }}</strong></td>
+            </tr>
+            <tr>
+                <th>How they found us</th>
+                <td>{{ source_display }}</td>
+            </tr>
+            <tr>
+                <th>Submission ID</th>
+                <td>{{ submission_id }}</td>
+            </tr>
+            <tr>
+                <th>Submitted on</th>
+                <td>{{ submission_date|date:"F d, Y \a\t g:i A" }}</td>
+            </tr>
+        </table>
+        
+        <div class="message-box">
+            <h4>Message:</h4>
+            <p>{{ message|linebreaks }}</p>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 15px; background-color: #d1ecf1; border: 1px solid #bee5eb;">
+            <h4 style="color: #0c5460;">Next Steps:</h4>
+            {% if reason == 'buy_bike' %}
+                <ul>
+                    <li>Contact customer within 2 hours</li>
+                    <li>Understand their bike preferences and budget</li>
+                    <li>Share available inventory</li>
+                    <li>Schedule a visit to showroom</li>
+                </ul>
+            {% elif reason == 'sell_bike' %}
+                <ul>
+                    <li>Contact customer within 2 hours</li>
+                    <li>Get bike details (model, year, condition, etc.)</li>
+                    <li>Schedule bike evaluation</li>
+                    <li>Prepare evaluation checklist</li>
+                </ul>
+            {% elif reason == 'exchange_bike' %}
+                <ul>
+                    <li>Contact customer within 2 hours</li>
+                    <li>Get current bike details</li>
+                    <li>Understand their new bike preferences</li>
+                    <li>Schedule evaluation and demo</li>
+                </ul>
+            {% elif reason == 'rto_service' %}
+                <ul>
+                    <li>Contact customer within 4 hours</li>
+                    <li>Understand required RTO service</li>
+                    <li>Share document requirements</li>
+                    <li>Provide timeline and pricing</li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li>Contact customer within 24 hours</li>
+                    <li>Address their inquiry professionally</li>
+                    <li>Provide relevant information</li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated notification from Drive RP Contact Form System</p>
+        <p>Please do not reply to this email. Contact the customer directly using the provided information.</p>
+    </div>
+</body>
+</html>

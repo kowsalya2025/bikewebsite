@@ -1,0 +1,54 @@
+NEW CONTACT FORM SUBMISSION - DRIVE RP
+==========================================
+
+{{ reason_display }} Inquiry Received
+Submitted on: {{ submission_date|date:"F d, Y \a\t g:i A" }}
+
+{% if reason == 'buy_bike' or reason == 'sell_bike' or reason == 'exchange_bike' %}
+⚠️ PRIORITY: This is a {{ reason_display|lower }} inquiry - requires prompt follow-up!
+{% endif %}
+
+CUSTOMER DETAILS:
+-----------------
+Name: {{ name }}
+Email: {{ email }}
+Phone: {{ phone }}
+Inquiry Type: {{ reason_display }}
+How they found us: {{ source_display }}
+Submission ID: {{ submission_id }}
+
+MESSAGE:
+--------
+{{ message }}
+
+NEXT STEPS:
+-----------
+{% if reason == 'buy_bike' %}
+- Contact customer within 2 hours
+- Understand their bike preferences and budget
+- Share available inventory
+- Schedule a visit to showroom
+{% elif reason == 'sell_bike' %}
+- Contact customer within 2 hours
+- Get bike details (model, year, condition, etc.)
+- Schedule bike evaluation
+- Prepare evaluation checklist
+{% elif reason == 'exchange_bike' %}
+- Contact customer within 2 hours
+- Get current bike details
+- Understand their new bike preferences
+- Schedule evaluation and demo
+{% elif reason == 'rto_service' %}
+- Contact customer within 4 hours
+- Understand required RTO service
+- Share document requirements
+- Provide timeline and pricing
+{% else %}
+- Contact customer within 24 hours
+- Address their inquiry professionally
+- Provide relevant information
+{% endif %}
+
+--
+This is an automated notification from Drive RP Contact Form System
+Do not reply to this email. Contact the customer directly using the provided information.

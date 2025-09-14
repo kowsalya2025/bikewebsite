@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+/* Container */
+.bikes-showcase {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Section Title */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    /* background: white; */
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* Image Container */
+.card-img-top {
+    height: 280px; /* same height for all images */
+    width: 100%;
+    object-fit: contain; /* keeps aspect ratio */
+    background: #f4f6f8 url('{% static "images/background.png" %}') center/contain no-repeat;
+    padding: 10px;
+}
+
+/* Card Body */
+.card-body {
+    padding: 15px;
+    background: #f9fbfc;
+    border-top: 1px solid #e6e6e6;
+}
+
+/* Title */
+.card-body h6 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+/* Specs line */
+.card-body p {
+    font-size: 0.9rem;
+    color: #5a6c7d;
+    text-align: center;
+}
+
+.card-body i {
+    color: #27ae60;
+    margin-right: 5px;
+}
+
+/* Price */
+.card-body .text-success {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 8px 0;
+}
+
+/* Location */
+.card-body .fa-map-marker-alt {
+    color: #e74c3c;
+}
+</style>
+
+<div class="container-fluid my-4">
+  <div class="row">
+    <!-- Filter Sidebar -->
+    <aside class="col-md-3">
+      <div class="p-3 bg-light rounded shadow-sm">
+        <h5 class="fw-bold mb-3">Filter</h5>
+        <form method="get">
+          <!-- Brand -->
+          <h6>Brand</h6>
+          <select name="brand" class="form-select mb-3">
+            <option value="">All</option>
+            {% for b in brands %}
+              <option value="{{ b }}" {% if request.GET.brand == b %}selected{% endif %}>{{ b }}</option>
+            {% endfor %}
+          </select>
+
+          <!-- Year -->
+          <h6>Year</h6>
+          <select name="year" class="form-select mb-3">
+            <option value="">All</option>
+            {% for y in years %}
+              <option value="{{ y }}" {% if request.GET.year == y|stringformat:"s" %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+          </select>
+
+          <!-- CC -->
+          <h6>Engine Trim CC</h6>
+          <input type="text" name="cc" class="form-control mb-3" placeholder="e.g. 150" value="{{ request.GET.cc }}">
+
+          <!-- Budget -->
+          <h6>Budget (₹)</h6>
+          <div class="row mb-3">
+            <div class="col-6">
+              <input type="number" name="min_price" class="form-control" placeholder="Min" value="{{ request.GET.min_price }}">
+            </div>
+            <div class="col-6">
+              <input type="number" name="max_price" class="form-control" placeholder="Max" value="{{ request.GET.max_price }}">
+            </div>
+          </div>
+
+          <!-- Kilometers -->
+          <h6>Kilometers</h6>
+          <div class="row mb-3">
+            <div class="col-6">
+              <input type="number" name="min_km" class="form-control" placeholder="Min" value="{{ request.GET.min_km }}">
+            </div>
+            <div class="col-6">
+              <input type="number" name="max_km" class="form-control" placeholder="Max" value="{{ request.GET.max_km }}">
+            </div>
+          </div>
+
+          <!-- Fuel -->
+          <h6>Fuel Type</h6>
+          <select name="fuel_type" class="form-select mb-3">
+            <option value="">All</option>
+            <option value="petrol" {% if request.GET.fuel_type == "petrol" %}selected{% endif %}>Petrol</option>
+            <option value="diesel" {% if request.GET.fuel_type == "diesel" %}selected{% endif %}>Diesel</option>
+            <option value="electric" {% if request.GET.fuel_type == "electric" %}selected{% endif %}>Electric</option>
+          </select>
+
+          <!-- Owner -->
+          <h6>Owner</h6>
+          <select name="owner_number" class="form-select mb-3">
+            <option value="">All</option>
+            <option value="1st" {% if request.GET.owner_number == "1st" %}selected{% endif %}>1st Owner</option>
+            <option value="2nd" {% if request.GET.owner_number == "2nd" %}selected{% endif %}>2nd Owner</option>
+            <option value="3rd" {% if request.GET.owner_number == "3rd" %}selected{% endif %}>3rd Owner</option>
+          </select>
+
+          <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- Bike Listings -->
+    <section class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold">{{ bikes.count }} Bikes In Tamil Nadu</h5>
+        <form method="get" class="d-flex align-items-center">
+          <label class="me-2 text-center">Sort By</label>
+          <select name="sort" class="form-select" onchange="this.form.submit()">
+            <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>Newest First</option>
+            <option value="price_low" {% if request.GET.sort == "price_low" %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_high" {% if request.GET.sort == "price_high" %}selected{% endif %}>Price: High to Low</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="row g-4">
+        {% for bike in bikes %}
+        <div class="col-lg-4 col-md-6">
+       <a href="{% url 'bike_detail' bike.id %}"  class="text-decoration-none text-dark">
+  <div class="card h-100">
+    <img src="{{ bike.image.url }}" class="card-img-top" alt="{{ bike.name }}">
+    <div class="card-body">
+      <h6>{{ bike.year }} | {{ bike.brand }} {{ bike.name }} | {{ bike.cc }}</h6>
+      <p class="mb-1">
+        <i class="fas fa-tachometer-alt"></i> {{ bike.formatted_km }} &nbsp;
+        <i class="fas fa-gas-pump"></i> {{ bike.get_fuel_type_display }} &nbsp;
+        <i class="fas fa-user"></i> {{ bike.get_owner_number_display }}
+      </p>
+      <span class="fw-bold text-success">{{ bike.formatted_price }}</span>
+      <p class="mb-0"><i class="fas fa-map-marker-alt"></i> {{ bike.location }}</p>
+    </div>
+  </div>
+</a>
+
+        </div>
+        {% empty %}
+        <p>No bikes found.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  const mainImg = document.querySelector('.main-img');
+  const thumbs = document.querySelectorAll('.img-thumbnail');
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      mainImg.src = thumb.src;
+    });
+  });
+</script>
+
+{% endblock %}
+

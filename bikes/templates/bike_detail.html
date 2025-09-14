@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="{{ bike.image.url }}" class="img-fluid rounded shadow" alt="{{ bike.name }}">
+      <div class="d-flex mt-3">
+        <!-- Optional: small thumbnails -->
+        {% for img in bike.images.all %}
+          <img src="{{ img.url }}" class="img-thumbnail me-2" style="width: 80px; height: 80px;">
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>{{ bike.year }} | {{ bike.brand }} {{ bike.name }}</h3>
+      <p>{{ bike.formatted_km }} Km | {{ bike.get_owner_number_display }} Owner | {{ bike.location }}</p>
+      <h4 class="text-success">{{ bike.formatted_price }}</h4>
+
+     
+      <button class="btn btn-primary p-2 m-4 fs-3" data-bs-toggle="modal" data-bs-target="#bookingModal">
+  Buy Now
+</button>
+
+      <hr>
+      <h5>Bike Overview</h5>
+      <p>CC: {{ bike.cc }}</p>
+      <p>Fuel: {{ bike.get_fuel_type_display }}</p>
+      <p>Refurbished: {{ bike.refurbished }}</p>
+      <p>Registration Certificate: {{ bike.registration_certificate }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Confirmation Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="modal-body">
+        <img src="{% static 'images/bike-biker.gif' %}" alt="Booking Confirmed" class="img-fluid mb-3" style="max-width:200px;">
+        <h4>Booking Confirmed</h4>
+        <p>The Bike is Yours! Enjoy Your Journey</p>
+        <button type="button" class="btn btn-success mt-3" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

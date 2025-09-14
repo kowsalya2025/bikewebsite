@@ -1,0 +1,653 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login & Register{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakery Authentication</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .auth-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .auth-tabs {
+            background: white;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab-button.login-tab {
+            background: linear-gradient(135deg, #1e426d, #1b59c5);
+        }
+        
+        .tab-button.register-tab {
+            background: linear-gradient(135deg, #1e426d, #1b59c5);
+        }
+        
+        .tab-button:not(.active) {
+            opacity: 0.7;
+        }
+        
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        
+        .login-tab::before {
+            border-left: 30px solid transparent;
+            border-top: 80px solid #28367b;
+        }
+        
+        .auth-content {
+            background: white;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        .form-section {
+            display: flex;
+            align-items: stretch;
+            gap: 40px;
+        }
+        
+        .form-column {
+            flex: 1;
+        }
+        
+        .cake-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cake-frame {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(360deg, #1e426d, #1b59c5);
+            border-radius: 20px;
+            padding: 20px;
+            /* transform: rotate(-5deg); */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cake-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            transform: rotate(5deg);
+        }
+        
+        .cake-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #384884;
+            box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+        }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .form-control.is-valid {
+            border-color: #28a745;
+        }
+        
+        .btn-auth {
+            background: linear-gradient(135deg, #20adb2, #392198);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+        }
+        
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(241, 196, 15, 0.4);
+            color: white;
+        }
+        
+        .forgot-password {
+            color: #e67e22;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 20px;
+        }
+        
+        .forgot-password:hover {
+            color: #d35400;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+        }
+        
+        .register-link a {
+            color: #e67e22;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 20px;
+        }
+        
+        .register-link a:hover {
+            color: #d35400;
+        }
+        
+        .name-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .name-row .form-group {
+            flex: 1;
+        }
+        
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .terms-check input[type="checkbox"] {
+            margin-top: 5px;
+        }
+        
+        .terms-check label {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .terms-check a {
+            color: #e67e22;
+            text-decoration: none;
+        }
+        
+        .terms-check a:hover {
+            color: #d35400;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
+        
+        .valid-feedback {
+            display: block;
+            color: #28a745;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 992px) {
+            .form-section {
+                flex-direction: column;
+            }
+            
+            .cake-frame {
+                width: 250px;
+                height: 250px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .auth-content {
+                padding: 20px;
+            }
+            
+            .tab-button {
+                font-size: 18px;
+                padding: 15px;
+            }
+            
+            .name-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container mt-5">
+        <div class="auth-tabs d-flex">
+            <button class="tab-button login-tab active" id="loginTab">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </button>
+            <button class="tab-button register-tab" id="registerTab">
+                <i class="fas fa-user-plus me-2"></i>Register
+            </button>
+        </div>
+        
+        <div class="auth-content">
+            <div id="alertContainer"></div>
+            
+            <!-- Login Form -->
+            <div id="loginForm" class="form-section fade-in">
+
+                 <div class="cake-image">
+                    <div class="cake-frame">
+                        <div class="cake-inner">
+                           <img src="{{ login_image.image.url }}" alt="Login Cake" 
+                            onerror="this.src='https://via.placeholder.com/400x400.png?text=No+Image'">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <form id="loginFormElement" novalidate>
+                        <div class="form-group">
+                            <label class="form-label fw-bold">E-Mail</label>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="Enter Your E-Mail" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label fw-bold">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" placeholder="Enter Your Password" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-auth fw-bold">Login</button>
+                        
+                        <div class="text-center mt-3">
+                            <a href="#" class="forgot-password">Lost Your Password</a>
+                        </div>
+                        
+                        <div class="register-link">
+                            Don't Have An Account? <a href="#" id="switchToRegister">Register</a>
+                        </div>
+                    </form>
+                </div>
+                
+               
+            </div>
+            
+            <!-- Register Form -->
+            <div id="registerForm" class="form-section" style="display: none;">
+               
+                     <div class="cake-image">
+                    <div class="cake-frame">
+                        <div class="cake-inner">
+                            <img src="{{ login_image.image.url }}" alt="Login Cake" 
+                                onerror="this.src='https://via.placeholder.com/400x400.png?text=No+Image'">
+
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-column">
+                    <form id="registerFormElement" novalidate>
+                        <div class="form-group">
+                            <label class="form-label fw-bold">E-Mail</label>
+                            <input type="email" class="form-control" id="registerEmail" placeholder="Enter Your E-Mail" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label fw-bold">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" placeholder="Enter Your Password" required minlength="6">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        
+                        <div class="name-row">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label fw-bold">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="terms-check">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <label for="agreeTerms">
+                                I Have Read And Agree To The <a href="#" target="_blank">Terms</a> And <a href="#" target="_blank">Privacy Policy</a>
+                            </label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-auth fw-bold">Register</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // User storage (in real app, this would be server-side)
+        let users = JSON.parse(localStorage.getItem('bakeryUsers') || '[]');
+        let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        
+        // DOM elements
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginFormElement = document.getElementById('loginFormElement');
+        const registerFormElement = document.getElementById('registerFormElement');
+        const alertContainer = document.getElementById('alertContainer');
+        const switchToRegister = document.getElementById('switchToRegister');
+        
+        // Tab switching
+        loginTab.addEventListener('click', () => switchTab('login'));
+        registerTab.addEventListener('click', () => switchTab('register'));
+        switchToRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchTab('register');
+        });
+        
+        function switchTab(tab) {
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.style.display = 'flex';
+                registerForm.style.display = 'none';
+                loginForm.classList.add('fade-in');
+            } else {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.style.display = 'flex';
+                loginForm.style.display = 'none';
+                registerForm.classList.add('fade-in');
+            }
+            clearAlert();
+        }
+        
+        // Validation functions
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+        
+        function validateRequired(value) {
+            return value.trim().length > 0;
+        }
+        
+        function showValidation(input, isValid, message) {
+            const feedback = input.nextElementSibling;
+            
+            if (isValid) {
+                input.classList.remove('is-invalid');
+                input.classList.add('is-valid');
+                feedback.textContent = '';
+                feedback.className = 'valid-feedback';
+            } else {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+                feedback.textContent = message;
+                feedback.className = 'invalid-feedback';
+            }
+        }
+        
+        function showAlert(message, type = 'danger') {
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+        }
+        
+        function clearAlert() {
+            alertContainer.innerHTML = '';
+        }
+        
+        // Real-time validation
+        document.getElementById('loginEmail').addEventListener('input', function() {
+            const isValid = validateEmail(this.value);
+            showValidation(this, isValid || this.value === '', 'Please enter a valid email address');
+        });
+        
+        document.getElementById('loginPassword').addEventListener('input', function() {
+            const isValid = validateRequired(this.value);
+            showValidation(this, isValid || this.value === '', 'Password is required');
+        });
+        
+        document.getElementById('registerEmail').addEventListener('input', function() {
+            const isValid = validateEmail(this.value);
+            const emailExists = users.some(user => user.email === this.value);
+            if (this.value && emailExists) {
+                showValidation(this, false, 'This email is already registered');
+            } else {
+                showValidation(this, isValid || this.value === '', 'Please enter a valid email address');
+            }
+        });
+        
+        document.getElementById('registerPassword').addEventListener('input', function() {
+            const isValid = validatePassword(this.value);
+            showValidation(this, isValid || this.value === '', 'Password must be at least 6 characters long');
+        });
+        
+        document.getElementById('firstName').addEventListener('input', function() {
+            const isValid = validateRequired(this.value);
+            showValidation(this, isValid || this.value === '', 'First name is required');
+        });
+        
+        document.getElementById('lastName').addEventListener('input', function() {
+            const isValid = validateRequired(this.value);
+            showValidation(this, isValid || this.value === '', 'Last name is required');
+        });
+        
+        // Form submissions
+        loginFormElement.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Validate
+            let isValid = true;
+            
+            if (!validateEmail(email)) {
+                showValidation(document.getElementById('loginEmail'), false, 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            if (!validateRequired(password)) {
+                showValidation(document.getElementById('loginPassword'), false, 'Password is required');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Check credentials
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showAlert(`Welcome back, ${user.firstName}! Login successful.`, 'success');
+                
+                // Simulate redirect after 2 seconds
+                setTimeout(() => {
+                    showAlert('Redirecting to dashboard...', 'info');
+                }, 2000);
+            } else {
+                showAlert('Invalid email or password. Please try again.');
+            }
+        });
+        
+        registerFormElement.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            // Validate
+            let isValid = true;
+            
+            if (!validateEmail(email)) {
+                showValidation(document.getElementById('registerEmail'), false, 'Please enter a valid email address');
+                isValid = false;
+            } else if (users.some(user => user.email === email)) {
+                showValidation(document.getElementById('registerEmail'), false, 'This email is already registered');
+                isValid = false;
+            }
+            
+            if (!validatePassword(password)) {
+                showValidation(document.getElementById('registerPassword'), false, 'Password must be at least 6 characters long');
+                isValid = false;
+            }
+            
+            if (!validateRequired(firstName)) {
+                showValidation(document.getElementById('firstName'), false, 'First name is required');
+                isValid = false;
+            }
+            
+            if (!validateRequired(lastName)) {
+                showValidation(document.getElementById('lastName'), false, 'Last name is required');
+                isValid = false;
+            }
+            
+            if (!agreeTerms) {
+                const checkbox = document.getElementById('agreeTerms');
+                const feedback = checkbox.parentElement.querySelector('.invalid-feedback') || 
+                               checkbox.parentElement.appendChild(document.createElement('div'));
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'You must agree to the terms and privacy policy';
+                checkbox.style.borderColor = '#dc3545';
+                isValid = false;
+            } else {
+                const feedback = document.getElementById('agreeTerms').parentElement.querySelector('.invalid-feedback');
+                if (feedback) feedback.textContent = '';
+                document.getElementById('agreeTerms').style.borderColor = '';
+            }
+            
+            if (!isValid) return;
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                email,
+                password,
+                firstName,
+                lastName,
+                registeredAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('bakeryUsers', JSON.stringify(users));
+            
+            showAlert(`Registration successful! Welcome ${firstName}! You can now login with your credentials.`, 'success');
+            
+            // Clear form and switch to login after 2 seconds
+            setTimeout(() => {
+                registerFormElement.reset();
+                document.querySelectorAll('.form-control').forEach(input => {
+                    input.classList.remove('is-valid', 'is-invalid');
+                });
+                switchTab('login');
+            }, 2000);
+        });
+        
+        // Check if user is already logged in
+        if (currentUser) {
+            showAlert(`Welcome back, ${currentUser.firstName}! You are already logged in.`, 'info');
+        }
+    </script>
+</body>
+</html>
+
+
+{% endblock %}

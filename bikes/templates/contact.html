@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - Drive RP{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-6 mb-5">
+            <h2 class="mb-4 text-primary fs-1">Contact Us</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <div class="mb-3 ">
+                    <label for="id_name" class="form-label fs-3 bolder fw-bold">Name *</label>
+                    <input type="text" 
+                           class="form-control {% if form.name.errors %}is-invalid{% endif %}" 
+                           id="id_name" 
+                           name="name" 
+                           value="{{ form.name.value|default:'' }}"
+                           required>
+                    {% if form.name.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="invalid-feedback">
+                            Please provide a valid name.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_email" class="form-label fs-3 fw-bold">E-mail Address *</label>
+                    <input type="email" 
+                           class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                           id="id_email" 
+                           name="email" 
+                           value="{{ form.email.value|default:'' }}"
+                           required>
+                    {% if form.email.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="invalid-feedback">
+                            Please provide a valid email address.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_phone" class="form-label fs-3 fw-bold">Phone Number</label>
+                    <input type="tel" 
+                           class="form-control {% if form.phone.errors %}is-invalid{% endif %}" 
+                           id="id_phone" 
+                           name="phone" 
+                           value="{{ form.phone.value|default:'' }}"
+                           pattern="[0-9+\-\s()]+">
+                    {% if form.phone.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.phone.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="invalid-feedback">
+                            Please provide a valid phone number.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_reason" class="form-label fs-3 fw-bold">Reason to Contact *</label>
+                    <select class="form-select {% if form.reason.errors %}is-invalid{% endif %}" 
+                            id="id_reason" 
+                            name="reason" 
+                            required>
+                        <option value="">Select a reason...</option>
+                        <option value="general_enquiry" {% if form.reason.value == 'general_enquiry' %}selected{% endif %}>General Enquiry</option>
+                        <option value="buy_bike" {% if form.reason.value == 'buy_bike' %}selected{% endif %}>Buy a Bike</option>
+                        <option value="sell_bike" {% if form.reason.value == 'sell_bike' %}selected{% endif %}>Sell a Bike</option>
+                        <option value="exchange_bike" {% if form.reason.value == 'exchange_bike' %}selected{% endif %}>Exchange a Bike</option>
+                        <option value="rto_service" {% if form.reason.value == 'rto_service' %}selected{% endif %}>RTO Service</option>
+                        <option value="others" {% if form.reason.value == 'others' %}selected{% endif %}>Others</option>
+                    </select>
+                    {% if form.reason.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.reason.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="invalid-feedback">
+                            Please select a reason for contact.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_source" class="form-label fs-3 fw-bold">How did you find out about us?</label>
+                    <select class="form-select {% if form.source.errors %}is-invalid{% endif %}" 
+                            id="id_source" 
+                            name="source">
+                        <option value="">Select an option...</option>
+                        <option value="google" {% if form.source.value == 'google' %}selected{% endif %}>Google Search</option>
+                        <option value="social" {% if form.source.value == 'social' %}selected{% endif %}>Social Media</option>
+                        <option value="friend" {% if form.source.value == 'friend' %}selected{% endif %}>Friend/Family</option>
+                        <option value="advertisement" {% if form.source.value == 'advertisement' %}selected{% endif %}>Advertisement</option>
+                        <option value="other" {% if form.source.value == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                    {% if form.source.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.source.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_message" class="form-label fs-3 fw-bold">Message *</label>
+                    <textarea class="form-control {% if form.message.errors %}is-invalid{% endif %}" 
+                              id="id_message" 
+                              name="message" 
+                              rows="5" 
+                              required>{{ form.message.value|default:'' }}</textarea>
+                    {% if form.message.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.message.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="invalid-feedback">
+                            Please provide a message.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+            </form>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-primary mb-3 fs-2">Drive RP</h5>
+                    <div class="mb-3">
+                        <h6 class="fw-bold fs-3">Address:</h6>
+                        <p class="mb-0 fs-4">
+                            <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                            51, Rajaji Street,<br>
+                            GST Road,<br>
+                            Chengalpattu-603104,<br>
+                            Tamil Nadu, India.
+                        </p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6 class="fw-bold fs-3">Website:</h6>
+                        <p class="mb-0 fs-4">
+                            <i class="fas fa-globe text-primary me-2"></i>
+                            <a href="http://www.DriveRp.in" target="_blank" class="text-decoration-none">
+                                www.DriveRp.in
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6 class="fw-bold fs-3">Phone:</h6>
+                        <p class="mb-0 fs-4">
+                            <i class="fas fa-phone text-success me-2"></i>
+                            <a href="tel:+919879521234" class="text-decoration-none">
+                                +91 987 952 1234
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Google Maps Embed -->
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.0!2d80.0!3d12.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDAwJzAwLjAiTiA4MMKwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890" 
+                        width="100%" 
+                        height="400" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Bootstrap form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+
+// Phone number validation
+document.getElementById('id_phone').addEventListener('input', function(e) {
+    let value = e.target.value;
+    // Remove any non-digit characters except +, -, space, and parentheses
+    value = value.replace(/[^\d+\-\s()]/g, '');
+    e.target.value = value;
+});
+</script>
+{% endblock %}

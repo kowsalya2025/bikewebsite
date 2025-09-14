@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row align-items-center">
+
+    <!-- LEFT IMAGE -->
+    <div class="col-md-6 text-center">
+      <img src="{{ about_section.image.url }}" alt="{{ about_section.title }}"
+           class="img-fluid rounded-3 shadow"
+           style="max-height: 500px; object-fit: cover;">
+    </div>
+
+    <!-- RIGHT TEXT -->
+    <div class="col-md-6">
+      <h1 class="fw-bold text-center text-primary">{{ about_section.title }}</h1>
+      <h5 class="mt-3 text-center">
+        {{ about_section.description|linebreaks }}
+      </h5>
+    </div>
+
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col">
+      <div class="card border-0 shadow position-relative"
+           style="background-image: url('{{ mission.background_image.url }}');
+                  background-size: cover;
+                  background-position: center;
+                  border-radius: 20px;
+                  height: 400px;  /* Make sure image fully shows */
+                  overflow: hidden;">
+        
+        <!-- Mission content box -->
+        <div class="position-absolute bottom-0 end-0 m-3 p-3"
+             style="background: rgba(247, 244, 244, 0.848);
+                    border-radius: 10px;
+                    width: 350px;">
+          <h5 class="fw-bold text-primary mb-2 text-center">{{ mission.title }}</h5>
+          <h6 class="mb-0 small">{{ mission.description }}</h6>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row align-items-center">
+    <!-- LEFT TEXT -->
+    <div class="col-md-6">
+      <h3 class="fw-bold text-primary">{{ approach_section.title }}</h3>
+      <h4 class="mt-3text-dark">{{ approach_section.description }}</h5>
+    </div>
+
+    <!-- RIGHT IMAGES -->
+    <div class="col-md-6">
+      <div class="row g-3">
+        {% for img in approach_section.images.all %}
+          <div class="col-6">
+            <img src="{{ img.image.url }}" class="img-fluid rounded shadow" alt="Approach Image">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

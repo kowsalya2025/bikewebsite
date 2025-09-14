@@ -1,0 +1,75 @@
+DRIVE RP - Thank you for contacting us!
+=======================================
+
+Dear {{ name }},
+
+Thank you for contacting Drive RP! We have successfully received your {{ reason_display|lower }} inquiry.
+
+YOUR INQUIRY DETAILS:
+---------------------
+Inquiry Type: {{ reason_display }}
+Submitted on: {{ submission_date|date:"F d, Y \a\t g:i A" }}
+Reference ID: {{ submission_id }}
+
+Your Message:
+{{ message }}
+
+WHAT HAPPENS NEXT:
+------------------
+{% if reason == 'buy_bike' %}
+Our sales team will contact you within 2 hours to:
+- Understand your bike preferences and budget
+- Share our current inventory matching your needs
+- Schedule a visit to our showroom for test rides
+- Discuss financing options if needed
+{% elif reason == 'sell_bike' %}
+Our evaluation team will contact you within 2 hours to:
+- Collect detailed information about your bike
+- Schedule a free evaluation at your convenience
+- Provide you with a competitive quote
+- Handle all documentation if you decide to sell
+{% elif reason == 'exchange_bike' %}
+Our exchange specialist will contact you within 2 hours to:
+- Evaluate your current bike
+- Understand your new bike requirements
+- Calculate exchange value and additional payment
+- Arrange test rides for your preferred models
+{% elif reason == 'rto_service' %}
+Our RTO services team will contact you within 4 hours to:
+- Understand your specific RTO requirements
+- Share the list of required documents
+- Provide timeline and service charges
+- Schedule document collection if needed
+{% else %}
+Our team will contact you within 24 hours to address your inquiry and provide the information you need.
+{% endif %}
+
+NEED IMMEDIATE ASSISTANCE?
+--------------------------
+📞 Call us: +91 987 952 1234
+📍 Visit us: 51, Rajaji Street, GST Road, Chengalpattu-603104, Tamil Nadu
+🌐 Website: www.DriveRp.in
+
+Business Hours:
+Monday - Friday: 9:00 AM - 7:00 PM
+Saturday: 9:00 AM - 5:00 PM
+Sunday: 10:00 AM - 4:00 PM
+
+WHY CHOOSE DRIVE RP?
+--------------------
+✅ Trusted bike dealer with years of experience
+✅ Wide range of bikes - new and pre-owned
+✅ Competitive pricing and financing options
+✅ Complete RTO and documentation services
+✅ Professional evaluation and fair exchange rates
+✅ After-sales service and support
+
+Follow us on social media:
+📘 Facebook | 📸 Instagram | 🐦 Twitter | 📺 YouTube
+
+--
+DRIVE RP - Your Trusted Bike Partner
+51, Rajaji Street, GST Road, Chengalpattu-603104, Tamil Nadu, India
+
+This is an automated confirmation email. Please do not reply to this message.
+If you did not submit this inquiry, please contact us immediately at +91 987 952 1234
